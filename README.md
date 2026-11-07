@@ -3,7 +3,7 @@
 **Student Name:** SURE ABHIRAM  
 **Roll Number:** 252U1R1234  
 **Section:** CSE-2E-211  
-**Faculty:** Joel Prashanth D  
+**Faculty:** Yugandhar  
 **Course:** Backend Development Fundamentals (Term II)  
 **Institution:** Aurora  
 **Repository:** [https://github.com/abhiram547/backend-labs](https://github.com/abhiram547/backend-labs)  

@@ -3,7 +3,7 @@
 **SURE ABHIRAM** · **252U1R1234** · **CSE-2E-211**  
 **Course:** Backend Development Fundamentals (Term II)  
 **Institution:** Aurora  
-**Faculty:** Joel Prashanth D  
+**Faculty:** Yugandhar  
 
 ---
 
@@ -102,59 +102,59 @@ npm test
 
 ### 1. GET /books - Default List
 - **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books](https://backend-labs-9nrc.onrender.com/books)
-![GET all books with default pagination](screenshots/01_get_books.png)
+![GET all books with default pagination](lab-03\screenshots\abhiram lab screenshot 1.png)
 
 ### 2. GET /books?search_q=Hobbit - Partial Title Match (LIKE)
 - **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books?search_q=Hobbit](https://backend-labs-9nrc.onrender.com/books?search_q=Hobbit)
-![Search book with LIKE](screenshots/02_get_books_search.png)
+![Search book with LIKE](lab-03\screenshots\abhiram lab screenshot 2.png)
 
 ### 3. GET /books?order_by=price&order=DESC - Sort
 - **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books?order_by=price&order=DESC](https://backend-labs-9nrc.onrender.com/books?order_by=price&order=DESC)
-![Sort books by price DESC](screenshots/03_get_books_sort.png)
+![Sort books by price DESC](lab-03\screenshots\abhiram lab screenshot 3.png)
 
 ### 4. GET /books?min_price=10&max_price=20 - Price Range Filter (BETWEEN)
 - **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books?min_price=10&max_price=20](https://backend-labs-9nrc.onrender.com/books?min_price=10&max_price=20)
-![Price range filter BETWEEN](screenshots/04_get_books_price_filter.png)
+![Price range filter BETWEEN](lab-03\screenshots\abhiram lab screenshot 4.png)
 
 ### 5. GET /books?limit=2&offset=1 - Pagination
 - **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books?limit=2&offset=1](https://backend-labs-9nrc.onrender.com/books?limit=2&offset=1)
-![Pagination with limit and offset](screenshots/05_get_books_pagination.png)
+![Pagination with limit and offset](lab-03\screenshots\abhiram lab screenshot 5.png)
 
 ### 6. GET /books?min_price=invalid - Validation Error
 - **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books?min_price=invalid](https://backend-labs-9nrc.onrender.com/books?min_price=invalid)
-![Query parameter validation failure](screenshots/06_get_books_price_error.png)
+![Query parameter validation failure](lab-03\screenshots\abhiram lab screenshot 6.png)
 
 ### 7. GET /books/1 - Retrieve Single Book
 - **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books/1](https://backend-labs-9nrc.onrender.com/books/1)
-![Retrieve single book by ID](screenshots/07_get_single_book.png)
+![Retrieve single book by ID](lab-03\screenshots\abhiram lab screenshot 7.png)
 
 ### 8. GET /books/99999 - Missing Record (404)
 - **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books/99999](https://backend-labs-9nrc.onrender.com/books/99999)
-![Missing book record returns 404](screenshots/08_get_book_not_found.png)
+![Missing book record returns 404](lab-03\screenshots\abhiram lab screenshot 8.png)
 
 ### 9. POST /books - Create Book (201 Created)
 - **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/books](https://backend-labs-9nrc.onrender.com/books)
-![Create book returns 201](screenshots/09_post_book_success.png)
+![Create book returns 201](lab-03\screenshots\abhiram lab screenshot 9.png)
 
 ### 10. POST /books - Reject Missing Title (400 Bad Request)
 - **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/books](https://backend-labs-9nrc.onrender.com/books)
-![Validation rejection for missing title](screenshots/10_post_book_validation_error.png)
+![Validation rejection for missing title](lab-03\screenshots\abhiram lab screenshot 10.png)
 
 ### 11. PUT /books/7 - Update Book (200 OK)
 - **Live Render Endpoint:** `PUT` [https://backend-labs-9nrc.onrender.com/books/7](https://backend-labs-9nrc.onrender.com/books/7)
-![Update book returns 200](screenshots/11_put_book_success.png)
+![Update book returns 200](lab-03\screenshots\abhiram lab screenshot 11.png)
 
 ### 12. PUT /books/99999 - Update Missing Record (404 Not Found)
 - **Live Render Endpoint:** `PUT` [https://backend-labs-9nrc.onrender.com/books/99999](https://backend-labs-9nrc.onrender.com/books/99999)
-![Update missing book returns 404](screenshots/12_put_book_not_found.png)
+![Update missing book returns 404](lab-03\screenshots\abhiram lab screenshot 12.png)
 
 ### 13. DELETE /books/7 - Delete Book (200 OK)
 - **Live Render Endpoint:** `DELETE` [https://backend-labs-9nrc.onrender.com/books/7](https://backend-labs-9nrc.onrender.com/books/7)
-![Delete book returns 200](screenshots/13_delete_book_success.png)
+![Delete book returns 200](lab-03\screenshots\abhiram lab screenshot 13.png)
 
 ### 14. DELETE /books/99999 - Delete Missing Record (404 Not Found)
 - **Live Render Endpoint:** `DELETE` [https://backend-labs-9nrc.onrender.com/books/99999](https://backend-labs-9nrc.onrender.com/books/99999)
-![Delete missing book returns 404](screenshots/14_delete_book_not_found.png)
+![Delete missing book returns 404](lab-03\screenshots\abhiram lab screenshot 14.png)
 
 ### 15. Automated Test Suite Execution
 - **Live Verification:** Automated 17-test suite executed successfully
