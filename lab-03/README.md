@@ -8,9 +8,9 @@
 ---
 
 ## Live Link
+- **Live Deployed Base URL:** [https://backend-labs-9nrc.onrender.com](https://backend-labs-9nrc.onrender.com)
 - **Repository URL:** [https://github.com/abhiram547/backend-labs/tree/main/lab-03](https://github.com/abhiram547/backend-labs/tree/main/lab-03)
-- **Deployment URL:** `Deployed service will be hosted on Render / Railway`
-- *Note:* All 17 success and failure cases have been verified with complete Postman response screenshots included below.
+- *Note:* All 17 success and failure cases have been verified with complete Postman response screenshots and live Render endpoints included below.
 
 ---
 
@@ -39,7 +39,7 @@ npm install
 # Start the development server
 npm start
 ```
-The server will start at `http://localhost:3000`.
+The server will start at `http://localhost:3000` (or `https://backend-labs-9nrc.onrender.com` on Render).
 
 ### 4. Running Automated Tests
 ```bash
@@ -101,48 +101,63 @@ npm test
 ## Screenshots
 
 ### 1. GET /books - Default List
+- **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books](https://backend-labs-9nrc.onrender.com/books)
 ![GET all books with default pagination](screenshots/01_get_books.png)
 
 ### 2. GET /books?search_q=Hobbit - Partial Title Match (LIKE)
+- **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books?search_q=Hobbit](https://backend-labs-9nrc.onrender.com/books?search_q=Hobbit)
 ![Search book with LIKE](screenshots/02_get_books_search.png)
 
 ### 3. GET /books?order_by=price&order=DESC - Sort
+- **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books?order_by=price&order=DESC](https://backend-labs-9nrc.onrender.com/books?order_by=price&order=DESC)
 ![Sort books by price DESC](screenshots/03_get_books_sort.png)
 
 ### 4. GET /books?min_price=10&max_price=20 - Price Range Filter (BETWEEN)
+- **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books?min_price=10&max_price=20](https://backend-labs-9nrc.onrender.com/books?min_price=10&max_price=20)
 ![Price range filter BETWEEN](screenshots/04_get_books_price_filter.png)
 
 ### 5. GET /books?limit=2&offset=1 - Pagination
+- **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books?limit=2&offset=1](https://backend-labs-9nrc.onrender.com/books?limit=2&offset=1)
 ![Pagination with limit and offset](screenshots/05_get_books_pagination.png)
 
 ### 6. GET /books?min_price=invalid - Validation Error
+- **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books?min_price=invalid](https://backend-labs-9nrc.onrender.com/books?min_price=invalid)
 ![Query parameter validation failure](screenshots/06_get_books_price_error.png)
 
 ### 7. GET /books/1 - Retrieve Single Book
+- **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books/1](https://backend-labs-9nrc.onrender.com/books/1)
 ![Retrieve single book by ID](screenshots/07_get_single_book.png)
 
 ### 8. GET /books/99999 - Missing Record (404)
+- **Live Render URL:** [https://backend-labs-9nrc.onrender.com/books/99999](https://backend-labs-9nrc.onrender.com/books/99999)
 ![Missing book record returns 404](screenshots/08_get_book_not_found.png)
 
 ### 9. POST /books - Create Book (201 Created)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/books](https://backend-labs-9nrc.onrender.com/books)
 ![Create book returns 201](screenshots/09_post_book_success.png)
 
 ### 10. POST /books - Reject Missing Title (400 Bad Request)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/books](https://backend-labs-9nrc.onrender.com/books)
 ![Validation rejection for missing title](screenshots/10_post_book_validation_error.png)
 
-### 11. PUT /books/:id - Update Book (200 OK)
+### 11. PUT /books/7 - Update Book (200 OK)
+- **Live Render Endpoint:** `PUT` [https://backend-labs-9nrc.onrender.com/books/7](https://backend-labs-9nrc.onrender.com/books/7)
 ![Update book returns 200](screenshots/11_put_book_success.png)
 
 ### 12. PUT /books/99999 - Update Missing Record (404 Not Found)
+- **Live Render Endpoint:** `PUT` [https://backend-labs-9nrc.onrender.com/books/99999](https://backend-labs-9nrc.onrender.com/books/99999)
 ![Update missing book returns 404](screenshots/12_put_book_not_found.png)
 
-### 13. DELETE /books/:id - Delete Book (200 OK)
+### 13. DELETE /books/7 - Delete Book (200 OK)
+- **Live Render Endpoint:** `DELETE` [https://backend-labs-9nrc.onrender.com/books/7](https://backend-labs-9nrc.onrender.com/books/7)
 ![Delete book returns 200](screenshots/13_delete_book_success.png)
 
 ### 14. DELETE /books/99999 - Delete Missing Record (404 Not Found)
+- **Live Render Endpoint:** `DELETE` [https://backend-labs-9nrc.onrender.com/books/99999](https://backend-labs-9nrc.onrender.com/books/99999)
 ![Delete missing book returns 404](screenshots/14_delete_book_not_found.png)
 
 ### 15. Automated Test Suite Execution
+- **Live Verification:** Automated 17-test suite executed successfully
 ![All 17 tests passed in test runner](screenshots/15_test_suite_all_pass.png)
 
 ---
@@ -179,4 +194,3 @@ npm test
 ### Q3: Which status code for bad input vs a missing record?
 - **Bad Input:** `400 Bad Request` — Used when request data fails validation (e.g. missing title, invalid non-numeric price).
 - **Missing Record:** `404 Not Found` — Used when the request syntax is valid but the target resource ID does not exist in the database.
-
