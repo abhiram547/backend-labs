@@ -1,0 +1,292 @@
+{
+  "info": {
+    "_postman_id": "lab03-rest-api-books-collection",
+    "name": "Lab 3 - REST API Books Management",
+    "description": "Collection covering success and failure test cases for Lab 3: REST API, query parameters, validation, and debugging.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. GET Books - Default (List & Pagination)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"]
+        },
+        "description": "Returns list of books with default parameters (limit=10, offset=0, order_by=title, order=ASC)."
+      }
+    },
+    {
+      "name": "2. GET Books - Search Query (LIKE)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books?search_q=Hobbit",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "search_q", "value": "Hobbit" }
+          ]
+        },
+        "description": "Searches for books whose title partially matches 'Hobbit' using SQL LIKE."
+      }
+    },
+    {
+      "name": "3. GET Books - Sort by Price DESC",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books?order_by=price&order=DESC",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "order_by", "value": "price" },
+            { "key": "order", "value": "DESC" }
+          ]
+        },
+        "description": "Sorts books by price in descending order."
+      }
+    },
+    {
+      "name": "4. GET Books - Price Range Filter (BETWEEN)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books?min_price=10&max_price=20",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "min_price", "value": "10" },
+            { "key": "max_price", "value": "20" }
+          ]
+        },
+        "description": "Filters books with price between 10 and 20 using SQL BETWEEN."
+      }
+    },
+    {
+      "name": "5. GET Books - Pagination (limit & offset)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books?limit=2&offset=1",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "limit", "value": "2" },
+            { "key": "offset", "value": "1" }
+          ]
+        },
+        "description": "Paginates results: limits output to 2 books after skipping the first book."
+      }
+    },
+    {
+      "name": "6. GET Books - Non-numeric Filter (Failure 400)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books?min_price=invalid",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"],
+          "query": [
+            { "key": "min_price", "value": "invalid" }
+          ]
+        },
+        "description": "Validation failure: rejects non-numeric price filter with 400 Bad Request."
+      }
+    },
+    {
+      "name": "7. GET Single Book by ID (Success 200)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["books", "1"]
+        },
+        "description": "Retrieves the single book matching ID 1."
+      }
+    },
+    {
+      "name": "8. GET Single Book - Missing ID (Failure 404)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books/99999",
+          "host": ["{{baseUrl}}"],
+          "path": ["books", "99999"]
+        },
+        "description": "Returns 404 Not Found when ID does not exist."
+      }
+    },
+    {
+      "name": "9. POST Create Book (Success 201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Design Patterns\",\n  \"author\": \"Erich Gamma\",\n  \"price\": 45.00\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"]
+        },
+        "description": "Creates a new book and returns 201 Created with the generated book ID."
+      }
+    },
+    {
+      "name": "10. POST Create Book - Missing Title (Failure 400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"author\": \"Author Only\",\n  \"price\": 20.00\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"]
+        },
+        "description": "Validation failure: rejects request missing title with 400 Bad Request."
+      }
+    },
+    {
+      "name": "11. POST Create Book - Missing Author (Failure 400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Title Only\",\n  \"price\": 20.00\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"]
+        },
+        "description": "Validation failure: rejects request missing author with 400 Bad Request."
+      }
+    },
+    {
+      "name": "12. POST Create Book - Non-numeric Price (Failure 400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Free Book\",\n  \"author\": \"Someone\",\n  \"price\": \"not-a-number\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books",
+          "host": ["{{baseUrl}}"],
+          "path": ["books"]
+        },
+        "description": "Validation failure: rejects non-numeric price with 400 Bad Request."
+      }
+    },
+    {
+      "name": "13. PUT Update Book (Success 200)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"The Hobbit (Collector's Edition)\",\n  \"author\": \"J. R. R. Tolkien\",\n  \"price\": 24.99\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["books", "1"]
+        },
+        "description": "Updates an existing book record and returns 200 OK."
+      }
+    },
+    {
+      "name": "14. PUT Update Book - Missing ID (Failure 404)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Non Existent\",\n  \"author\": \"Ghost\",\n  \"price\": 10.00\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/books/99999",
+          "host": ["{{baseUrl}}"],
+          "path": ["books", "99999"]
+        },
+        "description": "Returns 404 Not Found when attempting to update a missing book."
+      }
+    },
+    {
+      "name": "15. DELETE Book (Success 200)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["books", "1"]
+        },
+        "description": "Deletes the book by ID and returns 200 OK."
+      }
+    },
+    {
+      "name": "16. DELETE Book - Missing ID (Failure 404)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books/99999",
+          "host": ["{{baseUrl}}"],
+          "path": ["books", "99999"]
+        },
+        "description": "Returns 404 Not Found when attempting to delete a missing book."
+      }
+    },
+    {
+      "name": "17. GET Unknown Route (Failure 404)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/unknown",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "unknown"]
+        },
+        "description": "Fallback returns 404 Not Found with consistent JSON message for unmapped routes."
+      }
+    }
+  ]
+}

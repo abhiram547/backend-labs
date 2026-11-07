@@ -1,0 +1,290 @@
+[
+  {
+    "name": "List all books with default pagination and sorting",
+    "method": "GET",
+    "path": "/books",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": [
+      {
+        "id": 2,
+        "title": "1984",
+        "author": "George Orwell",
+        "price": 9.99
+      },
+      {
+        "id": 4,
+        "title": "Clean Code",
+        "author": "Robert C. Martin",
+        "price": 32
+      },
+      {
+        "id": 3,
+        "title": "Pride and Prejudice",
+        "author": "Jane Austen",
+        "price": 8.5
+      },
+      {
+        "id": 1,
+        "title": "The Hobbit",
+        "author": "J. R. R. Tolkien",
+        "price": 15
+      },
+      {
+        "id": 5,
+        "title": "The Pragmatic Programmer",
+        "author": "Andrew Hunt",
+        "price": 35
+      },
+      {
+        "id": 6,
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "price": 11.2
+      }
+    ]
+  },
+  {
+    "name": "Search books by partial title match (LIKE)",
+    "method": "GET",
+    "path": "/books?search_q=Hobbit",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": [
+      {
+        "id": 1,
+        "title": "The Hobbit",
+        "author": "J. R. R. Tolkien",
+        "price": 15
+      }
+    ]
+  },
+  {
+    "name": "Sort books by price DESC",
+    "method": "GET",
+    "path": "/books?order_by=price&order=DESC",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": [
+      {
+        "id": 5,
+        "title": "The Pragmatic Programmer",
+        "author": "Andrew Hunt",
+        "price": 35
+      },
+      {
+        "id": 4,
+        "title": "Clean Code",
+        "author": "Robert C. Martin",
+        "price": 32
+      },
+      {
+        "id": 1,
+        "title": "The Hobbit",
+        "author": "J. R. R. Tolkien",
+        "price": 15
+      },
+      {
+        "id": 6,
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "price": 11.2
+      },
+      {
+        "id": 2,
+        "title": "1984",
+        "author": "George Orwell",
+        "price": 9.99
+      },
+      {
+        "id": 3,
+        "title": "Pride and Prejudice",
+        "author": "Jane Austen",
+        "price": 8.5
+      }
+    ]
+  },
+  {
+    "name": "Filter books within price range (BETWEEN)",
+    "method": "GET",
+    "path": "/books?min_price=10&max_price=20",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": [
+      {
+        "id": 1,
+        "title": "The Hobbit",
+        "author": "J. R. R. Tolkien",
+        "price": 15
+      },
+      {
+        "id": 6,
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "price": 11.2
+      }
+    ]
+  },
+  {
+    "name": "Paginate books with limit and offset",
+    "method": "GET",
+    "path": "/books?limit=2&offset=1",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": [
+      {
+        "id": 4,
+        "title": "Clean Code",
+        "author": "Robert C. Martin",
+        "price": 32
+      },
+      {
+        "id": 3,
+        "title": "Pride and Prejudice",
+        "author": "Jane Austen",
+        "price": 8.5
+      }
+    ]
+  },
+  {
+    "name": "Reject non-numeric price filter with 400",
+    "method": "GET",
+    "path": "/books?min_price=invalid",
+    "status": 400,
+    "expectedStatus": 400,
+    "passed": true,
+    "response": {
+      "message": "min_price and max_price must be numeric"
+    }
+  },
+  {
+    "name": "Retrieve single book by ID",
+    "method": "GET",
+    "path": "/books/1",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": {
+      "id": 1,
+      "title": "The Hobbit",
+      "author": "J. R. R. Tolkien",
+      "price": 15
+    }
+  },
+  {
+    "name": "Return 404 for missing book ID",
+    "method": "GET",
+    "path": "/books/99999",
+    "status": 404,
+    "expectedStatus": 404,
+    "passed": true,
+    "response": {
+      "message": "Book not found"
+    }
+  },
+  {
+    "name": "Create a new book with valid payload",
+    "method": "POST",
+    "path": "/books",
+    "status": 201,
+    "expectedStatus": 201,
+    "passed": "Book created successfully",
+    "response": {
+      "message": "Book created successfully",
+      "bookId": 7
+    }
+  },
+  {
+    "name": "Reject POST with missing title with 400",
+    "method": "POST",
+    "path": "/books",
+    "status": 400,
+    "expectedStatus": 400,
+    "passed": "title is required and cannot be empty",
+    "response": {
+      "message": "title is required and cannot be empty"
+    }
+  },
+  {
+    "name": "Reject POST with missing author with 400",
+    "method": "POST",
+    "path": "/books",
+    "status": 400,
+    "expectedStatus": 400,
+    "passed": "author is required and cannot be empty",
+    "response": {
+      "message": "author is required and cannot be empty"
+    }
+  },
+  {
+    "name": "Reject POST with non-numeric price with 400",
+    "method": "POST",
+    "path": "/books",
+    "status": 400,
+    "expectedStatus": 400,
+    "passed": "price is required and must be a number",
+    "response": {
+      "message": "price is required and must be a number"
+    }
+  },
+  {
+    "name": "Update an existing book by ID",
+    "method": "PUT",
+    "path": "/books/7",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": {
+      "message": "Book updated successfully"
+    }
+  },
+  {
+    "name": "Return 404 when updating non-existent book",
+    "method": "PUT",
+    "path": "/books/99999",
+    "status": 404,
+    "expectedStatus": 404,
+    "passed": true,
+    "response": {
+      "message": "Book not found"
+    }
+  },
+  {
+    "name": "Delete an existing book by ID",
+    "method": "DELETE",
+    "path": "/books/7",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": {
+      "message": "Book deleted successfully"
+    }
+  },
+  {
+    "name": "Return 404 when deleting non-existent book",
+    "method": "DELETE",
+    "path": "/books/99999",
+    "status": 404,
+    "expectedStatus": 404,
+    "passed": true,
+    "response": {
+      "message": "Book not found"
+    }
+  },
+  {
+    "name": "Return 404 for undefined endpoints",
+    "method": "GET",
+    "path": "/unknown-endpoint",
+    "status": 404,
+    "expectedStatus": 404,
+    "passed": true,
+    "response": {
+      "message": "Route not found"
+    }
+  }
+]
