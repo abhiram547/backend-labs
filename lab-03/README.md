@@ -8,7 +8,8 @@
 ---
 
 ## Live Link
-- **Deployment URL:** `Pending user repository link for deployment` (e.g. Render / Railway / Vercel)
+- **Repository URL:** [https://github.com/abhiram547/backend-labs/tree/main/lab-03](https://github.com/abhiram547/backend-labs/tree/main/lab-03)
+- **Deployment URL:** `Deployed service will be hosted on Render / Railway`
 - *Note:* All 17 success and failure cases have been verified with complete Postman response screenshots included below.
 
 ---
@@ -178,3 +179,4 @@ npm test
 ### Q3: Which status code for bad input vs a missing record?
 - **Bad Input:** `400 Bad Request` — Used when request data fails validation (e.g. missing title, invalid non-numeric price).
 - **Missing Record:** `404 Not Found` — Used when the request syntax is valid but the target resource ID does not exist in the database.
+
