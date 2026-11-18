@@ -83,39 +83,48 @@ npm test
 ## Screenshots
 
 ### 1. POST /register - Valid User Registration
-- **Request in Postman:** `POST http://localhost:3000/register`
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
+- **Local Endpoint:** `POST http://localhost:3000/register`
 ![Registration Success](screenshots/01_post_register_success.png)
 
 ### 2. POST /register - Duplicate Username (400 Bad Request)
-- **Request in Postman:** `POST http://localhost:3000/register` (Duplicate user)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
+- **Local Endpoint:** `POST http://localhost:3000/register` (Duplicate user)
 ![Duplicate Username Rejected](screenshots/02_post_register_duplicate.png)
 
 ### 3. POST /register - Missing Required Fields (400 Bad Request)
-- **Request in Postman:** `POST http://localhost:3000/register` (Missing `username`)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
+- **Local Endpoint:** `POST http://localhost:3000/register` (Missing `username`)
 ![Missing Fields Rejected](screenshots/03_post_register_missing_fields.png)
 
 ### 4. POST /register - Short Password (400 Bad Request)
-- **Request in Postman:** `POST http://localhost:3000/register` (Password < 6 chars)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
+- **Local Endpoint:** `POST http://localhost:3000/register` (Password < 6 chars)
 ![Short Password Rejected](screenshots/04_post_register_short_password.png)
 
 ### 5. POST /login - Valid Credentials (200 OK, JWT Token Returned)
-- **Request in Postman:** `POST http://localhost:3000/login`
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
+- **Local Endpoint:** `POST http://localhost:3000/login`
 ![Login Success](screenshots/05_post_login_success.png)
 
 ### 6. POST /login - Unknown User (400 Bad Request)
-- **Request in Postman:** `POST http://localhost:3000/login` (Unregistered user)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
+- **Local Endpoint:** `POST http://localhost:3000/login` (Unregistered user)
 ![Unknown User Rejected](screenshots/06_post_login_unknown_user.png)
 
 ### 7. POST /login - Invalid Password (400 Bad Request)
-- **Request in Postman:** `POST http://localhost:3000/login` (Incorrect password)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
+- **Local Endpoint:** `POST http://localhost:3000/login` (Incorrect password)
 ![Wrong Password Rejected](screenshots/07_post_login_invalid_password.png)
 
 ### 8. GET /profile - Protected Route with Bearer Token (200 OK)
-- **Request in Postman:** `GET http://localhost:3000/profile` (with `Authorization: Bearer <jwt_token>`)
+- **Live Render Endpoint:** `GET` [https://backend-labs-9nrc.onrender.com/profile](https://backend-labs-9nrc.onrender.com/profile)
+- **Local Endpoint:** `GET http://localhost:3000/profile` (with `Authorization: Bearer <jwt_token>`)
 ![Protected Profile Accessed](screenshots/08_get_profile_jwt_auth_success.png)
 
 ### 9. GET /profile - Missing Authorization Token (401 Unauthorized)
-- **Request in Postman:** `GET http://localhost:3000/profile` (No token provided)
+- **Live Render Endpoint:** `GET` [https://backend-labs-9nrc.onrender.com/profile](https://backend-labs-9nrc.onrender.com/profile)
+- **Local Endpoint:** `GET http://localhost:3000/profile` (No token provided)
 ![Missing Token Rejected](screenshots/09_get_profile_missing_token.png)
 
 ### 10. JWT Token Inspection at jwt.io (Header, Payload, Signature)
@@ -123,10 +132,12 @@ npm test
 ![jwt.io Decoded Token](screenshots/10_jwt_io_decoded_token.png)
 
 ### 11. SQLite Database View (Passwords Hashed with bcrypt, Never Plaintext)
-- **Database Verification:** SQLite `user` table stores bcrypt hashes exclusively (`$2b$10$...`)
+- **Live Render Database View / Users List:** `GET` [https://backend-labs-9nrc.onrender.com/users](https://backend-labs-9nrc.onrender.com/users)
+- **Local Database View:** `GET http://localhost:3000/users`
 ![Database Password Hashing View](screenshots/11_database_hashed_passwords.png)
 
 ### 12. Automated Test Suite Execution (All 14 Tests Passing)
+- **Live Render Base URL:** [https://backend-labs-9nrc.onrender.com](https://backend-labs-9nrc.onrender.com)
 - **Automated Verification:** 14 automated tests executed successfully against server endpoints
 ![Test Runner Execution Summary](screenshots/12_test_runner_summary.png)
 
