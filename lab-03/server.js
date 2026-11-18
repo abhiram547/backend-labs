@@ -42,9 +42,9 @@ const initializeDBAndServer = async () => {
       )
     `);
 
-    // Seed initial records if empty
-    const countResult = await db.get(`SELECT COUNT(*) as count FROM book`);
-    if (countResult.count === 0) {
+    // Seed initial books if empty
+    const bookCount = await db.get(`SELECT COUNT(*) as count FROM book`);
+    if (bookCount.count === 0) {
       await db.run(`
         INSERT INTO book (title, author, price) VALUES
           ('The Hobbit', 'J. R. R. Tolkien', 15.00),
@@ -55,6 +55,23 @@ const initializeDBAndServer = async () => {
           ('To Kill a Mockingbird', 'Harper Lee', 11.20)
       `);
       console.log("Database seeded with sample books.");
+    }
+
+    // Seed initial users if empty
+    const userCount = await db.get(`SELECT COUNT(*) as count FROM user`);
+    if (userCount.count === 0) {
+      const hash1 = await bcrypt.hash("password123", 10);
+      const hash2 = await bcrypt.hash("rahul@123", 10);
+      const hash3 = await bcrypt.hash("faculty123", 10);
+
+      await db.run(
+        `INSERT INTO user (username, name, password) VALUES 
+          ('abhiram_sure', 'Sure Abhiram', ?),
+          ('rahul_sharma', 'Rahul Sharma', ?),
+          ('yugandhar_faculty', 'Yugandhar', ?)`,
+        [hash1, hash2, hash3]
+      );
+      console.log("Database seeded with sample users.");
     }
 
     if (require.main === module) {
@@ -68,7 +85,7 @@ const initializeDBAndServer = async () => {
   }
 };
 
-// Root endpoint: lists all available endpoints
+// Root endpoint: displays API overview and sample test accounts
 app.get("/", (req, res) => {
   res.status(200).json({
     message: "Backend Development Fundamentals - Live API Server",
@@ -76,7 +93,12 @@ app.get("/", (req, res) => {
     roll_number: "252U1R1234",
     section: "CSE-2E-211",
     faculty: "Yugandhar",
-    status: "Online",
+    status: "Active and Running",
+    sample_test_credentials: {
+      username: "abhiram_sure",
+      password: "password123",
+      note: "Pre-seeded in database. Use these credentials in POST /login to receive a JWT token instantly.",
+    },
     available_endpoints: {
       lab_03_books: {
         get_books: "GET /books",
@@ -89,6 +111,7 @@ app.get("/", (req, res) => {
         delete_book: "DELETE /books/:id",
       },
       lab_04_auth: {
+        users_list: "GET /users",
         register: "POST /register (or open in browser for schema)",
         login: "POST /login (or open in browser for schema)",
         profile: "GET /profile (Requires Bearer token)",
@@ -97,11 +120,20 @@ app.get("/", (req, res) => {
   });
 });
 
+// GET /users - View all registered sample users
+app.get("/users", async (req, res) => {
+  try {
+    const users = await db.all(`SELECT id, username, name FROM user`);
+    return res.status(200).json(users);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
 // ==========================================
 // LAB 3 ROUTES: /books
 // ==========================================
 
-// 1. GET /books - Retrieve books with search, sort, filter, and pagination
 app.get("/books", async (req, res) => {
   try {
     const {
@@ -127,7 +159,6 @@ app.get("/books", async (req, res) => {
       : "title";
 
     const validOrder = order.toUpperCase() === "DESC" ? "DESC" : "ASC";
-
     const parsedLimit = Math.max(1, parseInt(limit, 10) || 10);
     const parsedOffset = Math.max(0, parseInt(offset, 10) || 0);
 
@@ -152,7 +183,6 @@ app.get("/books", async (req, res) => {
   }
 });
 
-// 2. GET /books/:bookId - Retrieve a single book by id
 app.get("/books/:bookId", async (req, res) => {
   try {
     const { bookId } = req.params;
@@ -169,7 +199,6 @@ app.get("/books/:bookId", async (req, res) => {
   }
 });
 
-// 3. POST /books - Create a new book
 app.post("/books", async (req, res) => {
   try {
     const { title, author, price } = req.body || {};
@@ -201,7 +230,6 @@ app.post("/books", async (req, res) => {
   }
 });
 
-// 4. PUT /books/:bookId - Update a book
 app.put("/books/:bookId", async (req, res) => {
   try {
     const { bookId } = req.params;
@@ -242,7 +270,6 @@ app.put("/books/:bookId", async (req, res) => {
   }
 });
 
-// 5. DELETE /books/:bookId - Delete a book
 app.delete("/books/:bookId", async (req, res) => {
   try {
     const { bookId } = req.params;
@@ -265,25 +292,27 @@ app.delete("/books/:bookId", async (req, res) => {
 // LAB 4 ROUTES: /register, /login, /profile
 // ==========================================
 
-// Browser GET helper for /register
 const handleRegisterInfo = (req, res) => {
   res.status(200).json({
     endpoint: "POST /register",
     method: "POST",
     description: "User Registration Endpoint. To register a user, send an HTTP POST request with JSON body using Postman or curl.",
     sample_request_body: {
-      username: "abhiram_sure",
-      name: "Sure Abhiram",
+      username: "new_user_123",
+      name: "Sample User",
       password: "password123",
     },
-    note: "Browser address bars send GET requests. Please send a POST request with JSON body to register.",
+    pre_seeded_users: [
+      { username: "abhiram_sure", password: "password123" },
+      { username: "rahul_sharma", password: "rahul@123" },
+    ],
+    note: "Browser address bars send GET requests. Send a POST request with JSON body in Postman to register a new user.",
   });
 };
 
 app.get("/register", handleRegisterInfo);
 app.get("/register/", handleRegisterInfo);
 
-// POST /register
 const handleRegister = async (req, res) => {
   try {
     const { username, name, password } = req.body || {};
@@ -316,24 +345,22 @@ const handleRegister = async (req, res) => {
 app.post("/register", handleRegister);
 app.post("/register/", handleRegister);
 
-// Browser GET helper for /login
 const handleLoginInfo = (req, res) => {
   res.status(200).json({
     endpoint: "POST /login",
     method: "POST",
     description: "User Login Endpoint. To log in and receive a JWT token, send an HTTP POST request with JSON body using Postman or curl.",
-    sample_request_body: {
+    sample_ready_to_use_credentials: {
       username: "abhiram_sure",
       password: "password123",
     },
-    note: "Browser address bars send GET requests. Please send a POST request with JSON body to login and receive your jwt_token.",
+    instructions: "Send a POST request in Postman with the above credentials to receive your jwt_token immediately.",
   });
 };
 
 app.get("/login", handleLoginInfo);
 app.get("/login/", handleLoginInfo);
 
-// POST /login
 const handleLogin = async (req, res) => {
   try {
     const { username, password } = req.body || {};
@@ -366,7 +393,6 @@ const handleLogin = async (req, res) => {
 app.post("/login", handleLogin);
 app.post("/login/", handleLogin);
 
-// GET /profile
 app.get("/profile", async (req, res) => {
   const authHeader = req.headers["authorization"];
   let jwtToken = null;

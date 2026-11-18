@@ -34,6 +34,23 @@ const initializeDBAndServer = async () => {
       )
     `);
 
+    // Seed sample users if database is empty
+    const countResult = await db.get(`SELECT COUNT(*) as count FROM user`);
+    if (countResult.count === 0) {
+      const hash1 = await bcrypt.hash("password123", 10);
+      const hash2 = await bcrypt.hash("rahul@123", 10);
+      const hash3 = await bcrypt.hash("faculty123", 10);
+
+      await db.run(
+        `INSERT INTO user (username, name, password) VALUES 
+          ('abhiram_sure', 'Sure Abhiram', ?),
+          ('rahul_sharma', 'Rahul Sharma', ?),
+          ('yugandhar_faculty', 'Yugandhar', ?)`,
+        [hash1, hash2, hash3]
+      );
+      console.log("Database seeded with sample users.");
+    }
+
     console.log("Database initialized and 'user' table ready.");
 
     if (require.main === module) {
@@ -47,7 +64,7 @@ const initializeDBAndServer = async () => {
   }
 };
 
-// Root endpoint: displays API overview and available endpoints
+// Root endpoint: displays API overview and sample test accounts
 app.get("/", (req, res) => {
   res.status(200).json({
     project: "Lab 4: Registration, login and JWT",
@@ -55,16 +72,26 @@ app.get("/", (req, res) => {
     roll_number: "252U1R1234",
     section: "CSE-2E-211",
     faculty: "Yugandhar",
-    status: "Active",
+    status: "Active and Running",
+    sample_test_credentials: {
+      username: "abhiram_sure",
+      password: "password123",
+      note: "Pre-seeded in database. Use these credentials in POST /login to receive a JWT token instantly.",
+    },
     endpoints: {
+      users_list: {
+        method: "GET",
+        path: "/users",
+        description: "View all registered sample users in the database",
+      },
       register: {
         method: "POST",
         path: "/register",
         description: "Register a new user with hashed password",
         sample_body: {
-          username: "abhiram_sure",
-          name: "Sure Abhiram",
-          password: "password123",
+          username: "new_student",
+          name: "New Student",
+          password: "mypassword123",
         },
       },
       login: {
@@ -79,36 +106,49 @@ app.get("/", (req, res) => {
       profile: {
         method: "GET",
         path: "/profile",
-        description: "Protected route requiring 'Authorization: Bearer <token>' header",
+        description: "Protected route requiring 'Authorization: Bearer <jwt_token>' header",
       },
     },
   });
 });
 
-// Browser GET helper for /register (shows usage instructions when opened in browser)
+// GET /users - View all registered users (passwords excluded for security)
+app.get("/users", async (req, res) => {
+  try {
+    const users = await db.all(`SELECT id, username, name FROM user`);
+    return res.status(200).json(users);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
+// Browser GET helper for /register
 const handleRegisterInfo = (req, res) => {
   res.status(200).json({
     endpoint: "POST /register",
     method: "POST",
     description: "User Registration Endpoint. To register a user, send an HTTP POST request with JSON body using Postman or curl.",
     sample_request_body: {
-      username: "abhiram_sure",
-      name: "Sure Abhiram",
+      username: "new_user_123",
+      name: "Sample User",
       password: "password123",
     },
-    note: "Browser address bars send GET requests. Please send a POST request with JSON body to register.",
+    pre_seeded_users: [
+      { username: "abhiram_sure", password: "password123" },
+      { username: "rahul_sharma", password: "rahul@123" },
+    ],
+    note: "Browser address bars send GET requests. Send a POST request with JSON body in Postman to register a new user.",
   });
 };
 
 app.get("/register", handleRegisterInfo);
 app.get("/register/", handleRegisterInfo);
 
-// 1. POST /register (or /register/) - Register a new user
+// 1. POST /register - Register a new user
 const handleRegister = async (req, res) => {
   try {
     const { username, name, password } = req.body || {};
 
-    // Validate request body
     if (!username || !name || !password) {
       return res.status(400).json({ message: "Username, name, and password are required" });
     }
@@ -117,19 +157,14 @@ const handleRegister = async (req, res) => {
       return res.status(400).json({ message: "Password is too short" });
     }
 
-    // Check if username already exists in database
     const selectUserQuery = `SELECT * FROM user WHERE username = ?`;
     const existingUser = await db.get(selectUserQuery, [username]);
 
     if (existingUser !== undefined) {
-      // Reject existing user with 400
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash the password with bcrypt (salt rounds = 10)
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Insert user with hashed password using parameterized query
     const insertUserQuery = `
       INSERT INTO user (username, name, password)
       VALUES (?, ?, ?)
@@ -145,47 +180,42 @@ const handleRegister = async (req, res) => {
 app.post("/register", handleRegister);
 app.post("/register/", handleRegister);
 
-// Browser GET helper for /login (shows usage instructions when opened in browser)
+// Browser GET helper for /login
 const handleLoginInfo = (req, res) => {
   res.status(200).json({
     endpoint: "POST /login",
     method: "POST",
     description: "User Login Endpoint. To log in and receive a JWT token, send an HTTP POST request with JSON body using Postman or curl.",
-    sample_request_body: {
+    sample_ready_to_use_credentials: {
       username: "abhiram_sure",
       password: "password123",
     },
-    note: "Browser address bars send GET requests. Please send a POST request with JSON body to login and receive your jwt_token.",
+    instructions: "Send a POST request in Postman with the above credentials to receive your jwt_token immediately.",
   });
 };
 
 app.get("/login", handleLoginInfo);
 app.get("/login/", handleLoginInfo);
 
-// 2. POST /login (or /login/) - Authenticate user and return JWT
+// 2. POST /login - Authenticate user and return JWT
 const handleLogin = async (req, res) => {
   try {
     const { username, password } = req.body || {};
 
-    // Validate request body
     if (!username || !password) {
       return res.status(400).json({ message: "Username and password are required" });
     }
 
-    // Check if user exists in database
     const selectUserQuery = `SELECT * FROM user WHERE username = ?`;
     const dbUser = await db.get(selectUserQuery, [username]);
 
     if (dbUser === undefined) {
-      // Unknown user rejected with 400
       return res.status(400).json({ message: "Invalid user" });
     }
 
-    // Compare plain password with hashed password using bcrypt.compare
     const isPasswordMatched = await bcrypt.compare(password, dbUser.password);
 
     if (!isPasswordMatched) {
-      // Wrong password rejected with 400
       return res.status(400).json({ message: "Invalid password" });
     }
 
@@ -194,7 +224,6 @@ const handleLogin = async (req, res) => {
       username: dbUser.username,
     };
 
-    // Sign the JWT token with secret key
     const jwt_token = jwt.sign(payload, JWT_SECRET);
 
     return res.status(200).json({ jwt_token });
