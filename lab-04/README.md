@@ -8,9 +8,9 @@
 ---
 
 ## Live Link
-- **Live Deployed Base URL:** [https://backend-labs-9nrc.onrender.com](https://backend-labs-9nrc.onrender.com)
 - **Repository URL:** [https://github.com/abhiram547/backend-labs/tree/main/lab-04](https://github.com/abhiram547/backend-labs/tree/main/lab-04)
-- *Note:* All 14 success and failure test cases, database hashing checks, and JWT decoding validations have been completely verified with Postman response screenshots and live Render endpoints included below.
+- **Live Deployment:** Not applicable / Localhost with Postman (The single Render service `https://backend-labs-9nrc.onrender.com` is configured for Lab 3).  
+  *Note per syllabus instructions:* *"If the project cannot be deployed, say why in the README and add Postman screenshots of every endpoint."* All 14 endpoints and failure cases have been fully tested, verified, and documented with Postman response screenshots below.
 
 ---
 
@@ -82,46 +82,40 @@ npm test
 
 ## Screenshots
 
-> [!NOTE]
-> Web browsers send **GET** requests when you click a link. For endpoints requiring **POST** (`/register` and `/login`), opening the link in your browser will display endpoint details and sample JSON bodies. To test actual registration and login, send an HTTP **POST** request with JSON body using **Postman** (or import `postman_collection.json`).
-
 ### 1. POST /register - Valid User Registration
-- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)  
-  *(Open link in browser for endpoint schema; send POST in Postman to create user)*
+- **Request in Postman:** `POST http://localhost:3000/register`
 ![Registration Success](screenshots/01_post_register_success.png)
 
 ### 2. POST /register - Duplicate Username (400 Bad Request)
-- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
+- **Request in Postman:** `POST http://localhost:3000/register` (Duplicate user)
 ![Duplicate Username Rejected](screenshots/02_post_register_duplicate.png)
 
 ### 3. POST /register - Missing Required Fields (400 Bad Request)
-- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
+- **Request in Postman:** `POST http://localhost:3000/register` (Missing `username`)
 ![Missing Fields Rejected](screenshots/03_post_register_missing_fields.png)
 
 ### 4. POST /register - Short Password (400 Bad Request)
-- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
+- **Request in Postman:** `POST http://localhost:3000/register` (Password < 6 chars)
 ![Short Password Rejected](screenshots/04_post_register_short_password.png)
 
 ### 5. POST /login - Valid Credentials (200 OK, JWT Token Returned)
-- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)  
-  *(Open link in browser for endpoint schema; send POST in Postman to receive `jwt_token`)*
+- **Request in Postman:** `POST http://localhost:3000/login`
 ![Login Success](screenshots/05_post_login_success.png)
 
 ### 6. POST /login - Unknown User (400 Bad Request)
-- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
+- **Request in Postman:** `POST http://localhost:3000/login` (Unregistered user)
 ![Unknown User Rejected](screenshots/06_post_login_unknown_user.png)
 
 ### 7. POST /login - Invalid Password (400 Bad Request)
-- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
+- **Request in Postman:** `POST http://localhost:3000/login` (Incorrect password)
 ![Wrong Password Rejected](screenshots/07_post_login_invalid_password.png)
 
 ### 8. GET /profile - Protected Route with Bearer Token (200 OK)
-- **Live Render Endpoint (GET):** [https://backend-labs-9nrc.onrender.com/profile](https://backend-labs-9nrc.onrender.com/profile)  
-  *(Requires `Authorization: Bearer <jwt_token>` header)*
+- **Request in Postman:** `GET http://localhost:3000/profile` (with `Authorization: Bearer <jwt_token>`)
 ![Protected Profile Accessed](screenshots/08_get_profile_jwt_auth_success.png)
 
 ### 9. GET /profile - Missing Authorization Token (401 Unauthorized)
-- **Live Render Endpoint:** `GET` [https://backend-labs-9nrc.onrender.com/profile](https://backend-labs-9nrc.onrender.com/profile)
+- **Request in Postman:** `GET http://localhost:3000/profile` (No token provided)
 ![Missing Token Rejected](screenshots/09_get_profile_missing_token.png)
 
 ### 10. JWT Token Inspection at jwt.io (Header, Payload, Signature)
@@ -129,7 +123,7 @@ npm test
 ![jwt.io Decoded Token](screenshots/10_jwt_io_decoded_token.png)
 
 ### 11. SQLite Database View (Passwords Hashed with bcrypt, Never Plaintext)
-- **Database Verification:** SQLite `user` table stores bcrypt hashes exclusively
+- **Database Verification:** SQLite `user` table stores bcrypt hashes exclusively (`$2b$10$...`)
 ![Database Password Hashing View](screenshots/11_database_hashed_passwords.png)
 
 ### 12. Automated Test Suite Execution (All 14 Tests Passing)
@@ -175,4 +169,3 @@ npm test
 
 ### Q4: What should never go into the payload?
 - **Answer:** Sensitive data such as plain passwords, password hashes, credit card numbers, social security numbers, or internal secret keys. JWT payloads are only Base64URL-encoded (not encrypted) and can be easily decoded and read by anyone who inspects the token.
-
