@@ -2,8 +2,9 @@
   "name": "backend-labs-root",
   "version": "1.0.0",
   "description": "Backend Development Fundamentals Lab Repository",
+  "main": "server.js",
   "scripts": {
-    "start": "node lab-04/server.js",
+    "start": "node server.js",
     "start:lab-03": "node lab-03/server.js",
     "start:lab-04": "node lab-04/server.js",
     "test:lab-03": "node lab-03/test-runner.js",

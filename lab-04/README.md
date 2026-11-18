@@ -82,36 +82,42 @@ npm test
 
 ## Screenshots
 
+> [!NOTE]
+> Web browsers send **GET** requests when you click a link. For endpoints requiring **POST** (`/register` and `/login`), opening the link in your browser will display endpoint details and sample JSON bodies. To test actual registration and login, send an HTTP **POST** request with JSON body using **Postman** (or import `postman_collection.json`).
+
 ### 1. POST /register - Valid User Registration
-- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
+- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)  
+  *(Open link in browser for endpoint schema; send POST in Postman to create user)*
 ![Registration Success](screenshots/01_post_register_success.png)
 
 ### 2. POST /register - Duplicate Username (400 Bad Request)
-- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
+- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
 ![Duplicate Username Rejected](screenshots/02_post_register_duplicate.png)
 
 ### 3. POST /register - Missing Required Fields (400 Bad Request)
-- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
+- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
 ![Missing Fields Rejected](screenshots/03_post_register_missing_fields.png)
 
 ### 4. POST /register - Short Password (400 Bad Request)
-- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
+- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
 ![Short Password Rejected](screenshots/04_post_register_short_password.png)
 
 ### 5. POST /login - Valid Credentials (200 OK, JWT Token Returned)
-- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
+- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)  
+  *(Open link in browser for endpoint schema; send POST in Postman to receive `jwt_token`)*
 ![Login Success](screenshots/05_post_login_success.png)
 
 ### 6. POST /login - Unknown User (400 Bad Request)
-- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
+- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
 ![Unknown User Rejected](screenshots/06_post_login_unknown_user.png)
 
 ### 7. POST /login - Invalid Password (400 Bad Request)
-- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
+- **Live Render Endpoint (POST):** [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
 ![Wrong Password Rejected](screenshots/07_post_login_invalid_password.png)
 
 ### 8. GET /profile - Protected Route with Bearer Token (200 OK)
-- **Live Render Endpoint:** `GET` [https://backend-labs-9nrc.onrender.com/profile](https://backend-labs-9nrc.onrender.com/profile)
+- **Live Render Endpoint (GET):** [https://backend-labs-9nrc.onrender.com/profile](https://backend-labs-9nrc.onrender.com/profile)  
+  *(Requires `Authorization: Bearer <jwt_token>` header)*
 ![Protected Profile Accessed](screenshots/08_get_profile_jwt_auth_success.png)
 
 ### 9. GET /profile - Missing Authorization Token (401 Unauthorized)
