@@ -1,4 +1,4 @@
-﻿Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName System.Drawing
 
 $screenshotsDir = "d:\backends labs\lab-04\screenshots"
 if (!(Test-Path $screenshotsDir)) {
@@ -212,3 +212,4 @@ Create-Screenshot "12_test_runner_summary.png" "Test Runner Execution" "GET" "np
 Summary: 14 / 14 tests passed.
 =================================================
 "@
+

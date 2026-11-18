@@ -8,8 +8,9 @@
 ---
 
 ## Live Link
-- **Deployment URL:** `Pending repository push / live deployment confirmation`
-- *Note:* All 14 success and failure test cases, database hashing checks, and JWT decoding validations have been completely verified with Postman response screenshots included below.
+- **Live Deployed Base URL:** [https://backend-labs-9nrc.onrender.com](https://backend-labs-9nrc.onrender.com)
+- **Repository URL:** [https://github.com/abhiram547/backend-labs/tree/main/lab-04](https://github.com/abhiram547/backend-labs/tree/main/lab-04)
+- *Note:* All 14 success and failure test cases, database hashing checks, and JWT decoding validations have been completely verified with Postman response screenshots and live Render endpoints included below.
 
 ---
 
@@ -82,39 +83,51 @@ npm test
 ## Screenshots
 
 ### 1. POST /register - Valid User Registration
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
 ![Registration Success](screenshots/01_post_register_success.png)
 
 ### 2. POST /register - Duplicate Username (400 Bad Request)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
 ![Duplicate Username Rejected](screenshots/02_post_register_duplicate.png)
 
 ### 3. POST /register - Missing Required Fields (400 Bad Request)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
 ![Missing Fields Rejected](screenshots/03_post_register_missing_fields.png)
 
 ### 4. POST /register - Short Password (400 Bad Request)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/register](https://backend-labs-9nrc.onrender.com/register)
 ![Short Password Rejected](screenshots/04_post_register_short_password.png)
 
 ### 5. POST /login - Valid Credentials (200 OK, JWT Token Returned)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
 ![Login Success](screenshots/05_post_login_success.png)
 
 ### 6. POST /login - Unknown User (400 Bad Request)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
 ![Unknown User Rejected](screenshots/06_post_login_unknown_user.png)
 
 ### 7. POST /login - Invalid Password (400 Bad Request)
+- **Live Render Endpoint:** `POST` [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login)
 ![Wrong Password Rejected](screenshots/07_post_login_invalid_password.png)
 
 ### 8. GET /profile - Protected Route with Bearer Token (200 OK)
+- **Live Render Endpoint:** `GET` [https://backend-labs-9nrc.onrender.com/profile](https://backend-labs-9nrc.onrender.com/profile)
 ![Protected Profile Accessed](screenshots/08_get_profile_jwt_auth_success.png)
 
 ### 9. GET /profile - Missing Authorization Token (401 Unauthorized)
+- **Live Render Endpoint:** `GET` [https://backend-labs-9nrc.onrender.com/profile](https://backend-labs-9nrc.onrender.com/profile)
 ![Missing Token Rejected](screenshots/09_get_profile_missing_token.png)
 
 ### 10. JWT Token Inspection at jwt.io (Header, Payload, Signature)
+- **JWT Inspector Tool:** [https://jwt.io/#debugger-io](https://jwt.io/#debugger-io)
 ![jwt.io Decoded Token](screenshots/10_jwt_io_decoded_token.png)
 
 ### 11. SQLite Database View (Passwords Hashed with bcrypt, Never Plaintext)
+- **Database Verification:** SQLite `user` table stores bcrypt hashes exclusively
 ![Database Password Hashing View](screenshots/11_database_hashed_passwords.png)
 
 ### 12. Automated Test Suite Execution (All 14 Tests Passing)
+- **Automated Verification:** 14 automated tests executed successfully against server endpoints
 ![Test Runner Execution Summary](screenshots/12_test_runner_summary.png)
 
 ---
@@ -156,3 +169,4 @@ npm test
 
 ### Q4: What should never go into the payload?
 - **Answer:** Sensitive data such as plain passwords, password hashes, credit card numbers, social security numbers, or internal secret keys. JWT payloads are only Base64URL-encoded (not encrypted) and can be easily decoded and read by anyone who inspects the token.
+

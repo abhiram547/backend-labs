@@ -166,3 +166,4 @@ if (require.main === module) {
 }
 
 module.exports = { app, initializeDBAndServer, getDb: () => db, JWT_SECRET };
+
