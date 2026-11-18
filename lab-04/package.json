@@ -1,0 +1,26 @@
+{
+  "name": "lab-04",
+  "version": "1.0.0",
+  "description": "Lab 4: Registration, login and JWT",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test-runner.js"
+  },
+  "keywords": [
+    "express",
+    "sqlite",
+    "bcrypt",
+    "jwt",
+    "authentication"
+  ],
+  "author": "SURE ABHIRAM",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  }
+}

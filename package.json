@@ -2,15 +2,18 @@
   "name": "backend-labs-root",
   "version": "1.0.0",
   "description": "Backend Development Fundamentals Lab Repository",
-  "main": "lab-03/server.js",
   "scripts": {
-    "start": "node lab-03/server.js",
-    "test": "node lab-03/test-runner.js"
+    "start": "node lab-04/server.js",
+    "start:lab-03": "node lab-03/server.js",
+    "start:lab-04": "node lab-04/server.js",
+    "test:lab-03": "node lab-03/test-runner.js",
+    "test:lab-04": "node lab-04/test-runner.js"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   }
 }
-

@@ -16,6 +16,7 @@
 | Lab Folder | Module / Topic | Live Render URL | Status |
 | :--- | :--- | :--- | :---: |
 | [`lab-03/`](./lab-03/) | **Lab 3: REST API, query parameters, validation, debugging** | [https://backend-labs-9nrc.onrender.com/books](https://backend-labs-9nrc.onrender.com/books) | Completed |
+| [`lab-04/`](./lab-04/) | **Lab 4: Registration, login and JWT** | [https://backend-labs-9nrc.onrender.com/login](https://backend-labs-9nrc.onrender.com/login) | Completed |
 
 ---
 

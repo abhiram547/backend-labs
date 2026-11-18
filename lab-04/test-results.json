@@ -1,0 +1,166 @@
+[
+  {
+    "name": "Register a new user successfully",
+    "method": "POST",
+    "path": "/register",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": {
+      "message": "User created successfully"
+    }
+  },
+  {
+    "name": "Reject duplicate username with 400",
+    "method": "POST",
+    "path": "/register",
+    "status": 400,
+    "expectedStatus": 400,
+    "passed": true,
+    "response": {
+      "message": "User already exists"
+    }
+  },
+  {
+    "name": "Reject registration missing username with 400",
+    "method": "POST",
+    "path": "/register",
+    "status": 400,
+    "expectedStatus": 400,
+    "passed": true,
+    "response": {
+      "message": "Username, name, and password are required"
+    }
+  },
+  {
+    "name": "Reject registration with short password with 400",
+    "method": "POST",
+    "path": "/register",
+    "status": 400,
+    "expectedStatus": 400,
+    "passed": true,
+    "response": {
+      "message": "Password is too short"
+    }
+  },
+  {
+    "name": "Login successfully and receive JWT token",
+    "method": "POST",
+    "path": "/login",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": {
+      "jwt_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFiaGlyYW1fc3VyZSIsImlhdCI6MTc5NDk4NTI3Nn0.0aEyV7GEFP4WGArNQhVz7V6sRwYzj4iA8N1VmVmd5ts"
+    }
+  },
+  {
+    "name": "Reject unknown user with 400",
+    "method": "POST",
+    "path": "/login",
+    "status": 400,
+    "expectedStatus": 400,
+    "passed": true,
+    "response": {
+      "message": "Invalid user"
+    }
+  },
+  {
+    "name": "Reject incorrect password with 400",
+    "method": "POST",
+    "path": "/login",
+    "status": 400,
+    "expectedStatus": 400,
+    "passed": true,
+    "response": {
+      "message": "Invalid password"
+    }
+  },
+  {
+    "name": "Reject login missing credentials with 400",
+    "method": "POST",
+    "path": "/login",
+    "status": 400,
+    "expectedStatus": 400,
+    "passed": true,
+    "response": {
+      "message": "Username and password are required"
+    }
+  },
+  {
+    "name": "Verify JWT Payload security (no password, valid username)",
+    "method": "JWT_DECODE",
+    "path": "jwt.decode",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": {
+      "header": {
+        "alg": "HS256",
+        "typ": "JWT"
+      },
+      "payload": {
+        "username": "abhiram_sure",
+        "iat": 1794985276
+      }
+    }
+  },
+  {
+    "name": "Verify database stores bcrypt hash only",
+    "method": "DB_CHECK",
+    "path": "user.password",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": {
+      "username": "abhiram_sure",
+      "hashedSample": "$2b$10$bt4y00UqsUq56..."
+    }
+  },
+  {
+    "name": "Access protected route with valid JWT Bearer token",
+    "method": "GET",
+    "path": "/profile",
+    "status": 200,
+    "expectedStatus": 200,
+    "passed": true,
+    "response": {
+      "id": 1,
+      "username": "abhiram_sure",
+      "name": "Sure Abhiram"
+    }
+  },
+  {
+    "name": "Reject protected route without token with 401",
+    "method": "GET",
+    "path": "/profile",
+    "status": 401,
+    "expectedStatus": 401,
+    "passed": true,
+    "response": {
+      "message": "Invalid JWT Token"
+    }
+  },
+  {
+    "name": "Reject protected route with invalid token with 401",
+    "method": "GET",
+    "path": "/profile",
+    "status": 401,
+    "expectedStatus": 401,
+    "passed": true,
+    "response": {
+      "message": "Invalid JWT Token"
+    }
+  },
+  {
+    "name": "Reject unknown route with 404",
+    "method": "GET",
+    "path": "/unknown-endpoint",
+    "status": 404,
+    "expectedStatus": 404,
+    "passed": true,
+    "response": {
+      "message": "Route not found"
+    }
+  }
+]
